@@ -29,9 +29,9 @@ pipeline {
                         sh'mvn package'
                 }
             }
-       }
-       post {
-        always {
+            stage('Run') {
+               steps {
+                 sh 'java -jar target/armstrong-1.0-SNAPSHOT.jar'
             junit'**/target/surefire-reports/*.xml'
         }
    }
