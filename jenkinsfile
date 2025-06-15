@@ -1,23 +1,38 @@
 pipeline {
     agent {
         docker {
-            image 'openjdk-7'
+            image 'maven:3.9.6-eclipse-temurin-17'
         }
     }
         stages{
-        stage('Compile'){
-        steps {
-            sh '''
-            javac main.java
-            '''
-        }
-        }
-        stage('Run') {
-            steps {
-                sh '''
-                java main.java
-                '''
+            stage('Chekout'){
+                steps {
+                      git branch:'main',url:'htpps://github.com/rangampallysonali/armstrong'
+                }
             }
+            stage('Build'){
+                steps {
+                    sh '''
+                       mvn clean compile
+                        '''
+                            }
+            }
+            stage('test') {
+                steps {
+                    sh '''
+                        mvn package
+                       '''
+            }
+            }
+            stage('Package') {
+                steps {
+                        mvn package
+                }
+            }
+       }
+       post {
+        always {
+            junit'**/target/surefire-reports/*.xml'
         }
-    }
+   }
 }
