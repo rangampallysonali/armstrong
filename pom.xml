@@ -24,7 +24,7 @@
       <configuration>
         <archive>
           <manifest>
-            <mainClass>gfg</mainClass> <!-- Replace with full class name if it's in a package -->
+            <mainClass>gfg</mainClass> 
           </manifest>
         </archive>
       </configuration>
