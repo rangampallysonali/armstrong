@@ -20,13 +20,13 @@ pipeline {
             stage('test') {
                 steps {
                     sh '''
-                        mvn package
+                        mvn test
                        '''
             }
             }
             stage('Package') {
                 steps {
-                        mvn package
+                        sh'mvn package'
                 }
             }
        }
