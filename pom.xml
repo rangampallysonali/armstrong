@@ -24,7 +24,7 @@
       <configuration>
         <archive>
           <manifest>
-            <mainClass>gfg</mainClass> 
+            <mainClass>Armstrong</mainClass> 
           </manifest>
         </archive>
       </configuration>
