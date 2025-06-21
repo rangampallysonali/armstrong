@@ -4,44 +4,57 @@ pipeline {
             image 'maven:3.9.6-eclipse-temurin-17'
         }
     }
-        stages{
-            stage('Chekout'){
-                steps {
-                      git branch:'main',url:'https://github.com/rangampallysonali/armstrong'
-                }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/rangampallysonali/armstrong'
             }
-            stage('Build'){
-                steps {
-                    sh '''
-                       mvn clean compile
-                        '''
-                            }
-            }
-            stage('test') {
-                steps {
-                    sh '''
-                        mvn test
-                       '''
-            }
-            }
-            stage('Package') {
-                steps {
-                        sh'mvn package'
-                }
-            }
-            stage('Run') {
-               steps {
-                 sh 'java -jar target/armstrong-1.0-SNAPSHOT.jar'
-            junit'**/target/surefire-reports/*.xml'
         }
-   }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Package') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+
+        stage('Run') {
+            steps {
+                sh 'java -jar target/armstrong-1.0-SNAPSHOT.jar'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploy step placeholder - e.g., copy JAR to server or run docker build/push'
+            }
+        }
+    }
+
+    post {
+        always {
+            junit '**/target/surefire-reports/*.xml'
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        }
+        failure {
+            echo 'Build failed!'
+            // You can also send an email here
+        }
+    }
 }
-post {
-always {
-junit '**/target/surefire-reports/*.xml'
-}
-}
-}
+
 
 
 
